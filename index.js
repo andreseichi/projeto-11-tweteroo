@@ -39,4 +39,10 @@ app.post('/sign-up', (request, response) => {
   response.send('OK');
 });
 
+app.post('/tweets', (request, response) => {
+  tweets.push(request.body);
+
+  response.send('OK');
+});
+
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
