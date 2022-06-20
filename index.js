@@ -36,15 +36,31 @@ app.get('/', (request, response) => {
 });
 
 app.post('/sign-up', (request, response) => {
+  const { username, avatar } = request.body;
+
+  if (!username || !avatar) {
+    return response.status(400).send('Todos os campos são obrigatórios!');
+  }
   users.push(request.body);
 
-  response.send('OK');
+  response.status(201).send('OK');
 });
 
 app.post('/tweets', (request, response) => {
-  tweets.push(request.body);
+  const { user } = request.headers;
+  const { tweet } = request.body;
 
-  response.send('OK');
+  if (!user || !tweet) {
+    return response.status(400).send('Todos os campos são obrigatórios!');
+  }
+
+  const tweetObject = {
+    username: user,
+    tweet,
+  };
+  tweets.push(tweetObject);
+
+  response.status(201).send('OK');
 });
 
 app.get('/tweets', (request, response) => {
