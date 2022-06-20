@@ -82,4 +82,24 @@ app.get('/tweets', (request, response) => {
   response.send(invertedLast10PublishedTweets);
 });
 
+app.get('/tweets/:username', (request, response) => {
+  const { username } = request.params;
+
+  const tweetsFromUser = tweets.filter((tweet) => tweet.username === username);
+
+  const tweetsFromUserWithAvatar = tweetsFromUser.map((tweet) => {
+    const userAvatar = users.find(
+      (user) => user.username === tweet.username
+    ).avatar;
+
+    return {
+      username: tweet.username,
+      tweet: tweet.tweet,
+      avatar: userAvatar,
+    };
+  });
+
+  response.status(200).send(tweetsFromUserWithAvatar);
+});
+
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
